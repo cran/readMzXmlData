@@ -1,0 +1,7 @@
+RELEASE HISTORY OF THE "readMzXmlData" PACKAGE
+===================================================
+
+Version 1.0 [2011-02-18]:
+- First public release
+- Reads mass spectrometry data from mzXML files.
+

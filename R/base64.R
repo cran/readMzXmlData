@@ -1,0 +1,105 @@
+## $Id:readMzXmlData.R 381 2011-02-15 15:58:49Z sgibb $
+##
+## Copyright 2011 Sebastian Gibb
+## <mail@sebastiangibb.de>
+##
+## This file is part of readMzXmlData for R and related languages.
+##
+## readMzXmlData is free software: you can redistribute it and/or modify
+## it under the terms of the GNU General Public License as published by
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
+##
+## readMzXmlData is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
+##
+## You should have received a copy of the GNU General Public License
+## along with readMzXmlData. If not, see <http://www.gnu.org/licenses/>
+
+## completely taken from caTools 1.11 R/base64.R
+## modification by Sebastian Gibb <mail@sebastiangibb.de>:
+## - remove base64encode function
+
+#===========================================================================#
+# caTools - R library                                                       #
+# Copyright (C) 2005 Jarek Tuszynski                                        #
+# Distributed under GNU General Public License version 3                    #
+#===========================================================================#
+
+#===============================================================================
+# The Base64 encoding is designed to encode arbitrary binary information for 
+# transmission by electronic mail. It is defined by MIME (Multipurpose Internet 
+# Mail Extensions) specification RFC 1341, RFC 1421, RFC 2045 and others. 
+# Triplets of 8-bit octets are encoded as groups of four characters, each 
+# representing 6 bits of the source 24 bits. Only a 65-character subset 
+# ([A-Z,a-z,0-9,+,/,=]) present in all variants of ASCII and EBCDIC is used, 
+# enabling 6 bits to be represented per printable character
+#===============================================================================
+
+base64decode = function(z, what, size=NA, signed = TRUE, endian=.Platform$endian)
+{  
+  library(bitops)                 # needed for bitOr and bitAnd
+  if (!is.character(z)) 
+    stop("base64decode: Input argument 'z' is suppose to be a string")
+  if (length(z)==1) z = strsplit(z, NULL)[[1]] # convert string to array of characters
+  if (length(z)%%4!=0) 
+   warning("In base64decode: Length of base64 data (z) not a multiple of 4.")
+  #-----------------------------------
+  # Now perform the following mapping
+  #   A-Z  ->  0  - 25
+  #   a-z  ->  26 - 51
+  #   0-9  ->  52 - 61
+  #   +    ->  62
+  #   /    ->  63
+  #   =    ->  64  - special padding character
+  #  otherwise -1
+  #-----------------------------------
+  alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/="
+  alpha = strsplit(alpha, NULL)[[1]]    # convert string to array of characters
+  y     = match(z, alpha, nomatch=-1)-1 # lookup number of each character
+  if (any(y == -1)) 
+    stop("base64decode: Input string is not in Base64 format")
+  if (any(y == 64)) y = y[y != 64]      # remove padding
+  neByte = length(y);                   # number of encoded bytes
+  nBlock = ceiling(neByte/4);           # number of blocks/groups
+  ndByte = 3 * nBlock                   # number of decoded bytes
+  
+  # add padding if necessary
+  if (neByte < 4*nBlock) y[(neByte+1) : (4*nBlock)] = 0;
+  dim(y) = c(4, nBlock);                # shape into a matrix
+  x = matrix(as.integer(0), 3, nBlock); # for the decoded data
+ 
+  #---------------------------------------------
+  # Rearrange every 4 bytes into 3 bytes
+  #    y = 00aaaaaa 00bbbbbb 00cccccc 00dddddd
+  # to form
+  #    x = aaaaaabb bbbbcccc ccdddddd
+  # This section is based on Matlab code by Peter Acklam
+  # http://home.online.no/~pjacklam/matlab/software/util/datautil/
+  #---------------------------------------------
+  x[1,] = bitOr(bitShiftL(y[1,], 2), bitShiftR(y[2,], 4))
+  x[2,] = bitOr(bitShiftL(y[2,], 4), bitShiftR(y[3,], 2))
+  x[3,] = bitOr(bitShiftL(y[3,], 6), y[4,])
+  x = bitAnd(x, 255) # trim numbers to lower 8-bits
+  
+  # remove padding
+  if (neByte %% 4 == 2) x = x[1:(ndByte-2)]
+  if (neByte %% 4 == 3) x = x[1:(ndByte-1)]
+  
+  # perform final conversion from 'raw' to type given by 'what'
+  r = as.raw(x)
+  TypeList = c("logical", "integer", "double", "complex", "character", "raw", 
+               "numeric", "int")
+  if (!is.character(what) || length(what) != 1 || !(what %in% TypeList)) 
+    what <- typeof(what)
+  if (what=="raw") return(r)
+  if (is.na(size)) size = switch(match(what, TypeList), 4, 4, 8, 16, 2, 1, 8, 4) 
+  n = length(r)
+  if (n%%size) stop("raw2bin: number of elements in 'r' is not multiple of 'size'")
+  x = readBin(r, what, n = n%/%size, size=size, signed=signed, endian=endian)
+  if (what=="character")  x = paste(x, collapse = "") # convert arrays of characters to strings
+  return (x)
+}
+
