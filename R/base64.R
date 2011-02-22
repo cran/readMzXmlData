@@ -21,6 +21,7 @@
 ## completely taken from caTools 1.11 R/base64.R
 ## modification by Sebastian Gibb <mail@sebastiangibb.de>:
 ## - remove base64encode function
+## - prepend a dot to function name
 
 #===========================================================================#
 # caTools - R library                                                       #
@@ -38,7 +39,7 @@
 # enabling 6 bits to be represented per printable character
 #===============================================================================
 
-base64decode = function(z, what, size=NA, signed = TRUE, endian=.Platform$endian)
+.base64decode = function(z, what, size=NA, signed = TRUE, endian=.Platform$endian)
 {  
   library(bitops)                 # needed for bitOr and bitAnd
   if (!is.character(z)) 

@@ -156,7 +156,7 @@ readMzXmlFile <- function(mzXmlFile, removeMetaData=FALSE, verbose=FALSE) {
     }
 
     ## read file
-    s <- read.mzXML(mzXmlFile);
+    s <- .read.mzXML(mzXmlFile);
 
     spectra <- lapply(s$scan, function(x, globalS=s) {
             scan <- list()

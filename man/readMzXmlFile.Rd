@@ -7,7 +7,7 @@ Reads mass spectrometry data in mzXML format.
 \description{
 Reads mass spectrometry data in mzXML format defined in
 \url{http://tools.proteomecenter.org/mzXMLschema.php}. It is a wrapper function
-around \code{\link{read.mzXML}}.
+around \code{\link{.read.mzXML}}.
 }
 \usage{
 readMzXmlFile(mzXmlFile, removeMetaData=FALSE, verbose=FALSE)
@@ -50,8 +50,8 @@ A list of spectra and metadata.
 Sebastian Gibb
 }
 \seealso{
-  \code{\link{read.mzXML}},
-  \code{\link{readMzXmlDir}}
+  \code{\link{readMzXmlDir}},
+  \code{\link{.read.mzXML}}
 }
 \examples{
 library(readMzXmlData);

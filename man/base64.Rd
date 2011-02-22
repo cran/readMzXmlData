@@ -3,15 +3,18 @@
 % - remove base64encode function
 % - remove examples
 
-\name{ base64decode}
-\alias{base64decode}
+\name{.base64decode}
+\alias{.base64decode}
 \title{Convert R vectors from the Base64 format.}
 \description{
   Convert R vectors of any type from the Base64 format for encrypting
   any binary data as string using alphanumeric subset of ASCII character set.
 }
+\details{
+This function was taken from \pkg{caTools} 1.11 \emph{R/base64.R}.
+}
 \usage{
-  x = base64decode(z, what, size=NA, signed = TRUE, endian=.Platform$endian)
+  x = .base64decode(z, what, size=NA, signed = TRUE, endian=.Platform$endian)
 }
 
 \arguments{
@@ -37,7 +40,7 @@
 }
 
 \value{
-   Function \code{\link{base64decode}} returns vector of appropriate mode 
+   Function \code{\link{.base64decode}} returns vector of appropriate mode 
     and length (see \code{x} above).
 }
 

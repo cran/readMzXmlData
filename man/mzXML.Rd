@@ -2,12 +2,12 @@
 % modification by Sebastian Gibb <mail@sebastiangibb.de>:
 % - remove write.mzXML function and its examples
 % - remove new.mzXML function
-\name{read.mzXML}
-\alias{read.mzXML}
+\name{.read.mzXML}
+\alias{.read.mzXML}
 \title{Read mzXML Files.}
 \description{Read protein mass spectra data to/from mzXML files.}
 \usage{
-  mzXML = read.mzXML(filename)
+  mzXML = .read.mzXML(filename)
 }
 
 \arguments{
@@ -15,10 +15,11 @@
 }
 
 \details{
-  The main task of \code{read.mzXML} function is to extract scan data of mzXML
+  This function was taken from \pkg{caMassClass} 1.9 \emph{R/mzXML.R}.
+  The main task of \code{.read.mzXML} function is to extract scan data of mzXML
   files. In addition attempt is made to keep all other sections of mzXML file
   as unparsed XML code, so the data can be extracted latter. 
-  Those unparsed sections are stored as XML text 
+  Those unparsed sections are stored as XML text.
 }                                    
 
 \value{
@@ -87,7 +88,8 @@
 exampleDirectory <- system.file("Examples", package="readMzXmlData");
 
 ## read example spectrum
-xml <- read.mzXML(file.path(exampleDirectory, "A1-0_A1.mzXML"));
+xml <- readMzXmlData:::.read.mzXML(file.path(exampleDirectory,
+    "A1-0_A1.mzXML"));
 xml
   
 ## plot spectrum of scan 1

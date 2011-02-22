@@ -23,6 +23,7 @@
 ## - remove write.mzXML function
 ## - remove caTools dependecies
 ## - move new.mzXML to read.mzXML (becomes a local function)
+## - prepend a dot to function name
 
 #===========================================================================#
 # Written by Jarek Tuszynski. Copyright 2001-2003 SAIC.                     #
@@ -34,7 +35,7 @@
 
 #==============================================================================
 
-read.mzXML = function(filename)
+.read.mzXML = function(filename)
 {
   Paste = function(...) paste(..., sep="", collapse="")
 
@@ -160,7 +161,7 @@ read.mzXML = function(filename)
       if (pairOrder!="m/z-int")
         warning("read.mzXML.scan: incorrect pairOrder attribute of peaks field")
       if (peaksCount>0) {
-        p = base64decode(peaks, "double", endian=endian, size=size)
+        p = .base64decode(peaks, "double", endian=endian, size=size)
         np = length(p) %/% 2
         if (np != peaksCount)
           warning("read.mzXML.scan: incorrect 'peakCount' attribute of 'peaks' field: expected ",

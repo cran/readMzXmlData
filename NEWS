@@ -1,6 +1,11 @@
 RELEASE HISTORY OF THE "readMzXmlData" PACKAGE
 ===================================================
 
+Version 1.1 [2011-02-22]:
+- Prepend dot to function names of read.mzXML and base64decode to avoid
+  conflicts with caMassClass
+- Hide .read.mzXML and .base64decode by NAMESPACE
+
 Version 1.0 [2011-02-18]:
 - First public release
 - Reads mass spectrometry data from mzXML files.
