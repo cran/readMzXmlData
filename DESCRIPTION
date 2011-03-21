@@ -1,6 +1,6 @@
 Package: readMzXmlData
-Version: 1.1
-Date: 2011-02-22
+Version: 1.2
+Date: 2011-03-21
 Title: Reads mass spectrometry data in mzXML format.
 Author: Jarek Tuszynski, Sebastian Gibb
 Maintainer: Sebastian Gibb <mail@sebastiangibb.de>
@@ -13,6 +13,6 @@ Description: readMzXmlData is a wrapper around read.mzXML provided by
 License: GPL (>= 3)
 URL: http://www.sebastiangibb.de/maldiquant/
 LazyLoad: yes
-Packaged: 2011-02-22 13:59:22 UTC; sgibb
+Packaged: 2011-03-21 10:15:39 UTC; sgibb
 Repository: CRAN
-Date/Publication: 2011-02-22 15:34:31
+Date/Publication: 2011-03-21 14:01:09

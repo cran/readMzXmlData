@@ -7,7 +7,7 @@
 \title{Read mzXML Files.}
 \description{Read protein mass spectra data to/from mzXML files.}
 \usage{
-  mzXML = .read.mzXML(filename)
+  .read.mzXML(filename)
 }
 
 \arguments{
@@ -84,6 +84,9 @@
 }
 
 \examples{
+## load library
+library("readMzXmlData");
+
 ## get examples directory 
 exampleDirectory <- system.file("Examples", package="readMzXmlData");
 

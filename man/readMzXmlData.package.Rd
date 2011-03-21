@@ -16,8 +16,8 @@ do it well. Also I want to try to keep it small and simple.
 \tabular{ll}{                                                                                                                                     
 Package: \tab readMzXmlData\cr                                                                                                                   
 Type: \tab Package\cr                                                                                                                             
-Version: \tab 1.1\cr                                                                                                                              
-Date: \tab 2011-02-22\cr                                                                                                                          
+Version: \tab 1.2\cr
+Date: \tab 2011-03-21\cr
 License: \tab GPL(version 3 or later)\cr                                                                                                          
 }    
 

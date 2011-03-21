@@ -1,6 +1,10 @@
 RELEASE HISTORY OF THE "readMzXmlData" PACKAGE
 ===================================================
 
+Version 1.2 [2011-03-21]:
+- Unhide .read.mzXML and .base64decode by NAMESPACE
+- Surround package names by double quotes
+
 Version 1.1 [2011-02-22]:
 - Prepend dot to function names of read.mzXML and base64decode to avoid
   conflicts with caMassClass

@@ -54,7 +54,8 @@ Sebastian Gibb
   \code{\link{.read.mzXML}}
 }
 \examples{
-library(readMzXmlData);
+## load library
+library("readMzXmlData");
 
 ## get examples directory
 exampleDirectory <- system.file("Examples", package="readMzXmlData");
