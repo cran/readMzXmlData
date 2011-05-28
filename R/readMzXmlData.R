@@ -59,6 +59,11 @@ readMzXmlDir <- function(mzXmlDir, removeCalibrationScans=TRUE,
         }
     }
 
+    if (length(files) <= 0) {
+        warning("Directory doesn't contain any ", fileExtension, " file.");
+        return(NA);
+    }
+
     ## generate "path/files"
     files <- sapply(files, function(x) {
             x <- file.path(mzXmlDir, x);

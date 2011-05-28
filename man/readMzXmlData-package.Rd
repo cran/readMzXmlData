@@ -16,8 +16,8 @@ do it well. Also I want to try to keep it small and simple.
 \tabular{ll}{                                                                                                                                     
 Package: \tab readMzXmlData\cr                                                                                                                   
 Type: \tab Package\cr                                                                                                                             
-Version: \tab 1.2\cr
-Date: \tab 2011-03-21\cr
+Version: \tab 1.3\cr
+Date: \tab 2011-05-28\cr
 License: \tab GPL(version 3 or later)\cr                                                                                                          
 }    
 
@@ -27,6 +27,8 @@ Main functions:
 
 \code{\link{readMzXmlDir}}: Reads recursively mass spectrometry data in mzXML
 format in a specific directory.
+
+\code{\link{mqReadMzXml}}: Reads mass spectrometry data into MALDIquant.
 }
 \author{
 Jarek Tuszynski (SAIC) \email{jaroslaw.w.tuszynski@saic.com} (Author of
@@ -35,7 +37,7 @@ Sebastian Gibb
 
 Maintainer: Sebastian Gibb \email{mail@sebastiangibb.de}}
 \references{
-See website: \url{http://www.sebastiangibb.de/maldiquant/}
+See website: \url{http://www.strimmerlab.org/software/maldiquant/}
 }
 \keyword{IO}
 \seealso{
