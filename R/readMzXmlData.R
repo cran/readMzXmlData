@@ -166,8 +166,19 @@ readMzXmlFile <- function(mzXmlFile, removeMetaData=FALSE, verbose=FALSE) {
     spectra <- lapply(s$scan, function(x, globalS=s) {
             scan <- list()
             scan$spectrum <- list();
-            scan$spectrum$mass <- x$mass;
-            scan$spectrum$intensity <- x$peaks;
+
+            if (!is.null(x$mass)) {
+              scan$spectrum$mass <- x$mass;
+            } else {
+              scan$spectrum$mass <- list();
+            }
+
+            if (!is.null(x$peaks)) {
+              scan$spectrum$intensity <- x$peaks;
+            } else {
+              scan$spectrum$intensity <- list();
+            }
+
             if (!removeMetaData) {
                 scan$metaData <- .globalMetaData(globalS);
                 scan$metaData <- append(scan$metaData, .scanMetaData(x));
@@ -190,8 +201,8 @@ readMzXmlFile <- function(mzXmlFile, removeMetaData=FALSE, verbose=FALSE) {
 ##  a list with metadata
 ##
 .globalMetaData <- function(spec) {
-    keys <- c("msInstrument", "parentFile", "dataProcessing", "separation",
-        "spotting", "indexOffset");
+    keys <- c("header", "msInstrument", "parentFile", "dataProcessing", 
+        "separation", "spotting", "indexOffset");
 
     metaData <- list();
     for (i in keys) {
@@ -214,7 +225,7 @@ readMzXmlFile <- function(mzXmlFile, removeMetaData=FALSE, verbose=FALSE) {
 ##  a list with metadata
 ##
 .scanMetaData <- function(scan) {
-    keys <- c("num", "parentNum", "msLevel", "header", "maldi",
+    keys <- c("num", "parentNum", "msLevel", "maldi",
         "experiment", "scanOrigin", "precursorMz");
 
     metaData <- list();

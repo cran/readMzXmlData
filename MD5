@@ -1,0 +1,17 @@
+71545697e217d6333dc32df75528ba55 *DESCRIPTION
+d32239bcb673463ab874e80d47fae504 *LICENSE
+b82bff7cf77128c190df4cbc03bcb554 *NAMESPACE
+ac958d72e46cff66572ba8fac50d0090 *NEWS
+6bd24fd4e2740783100298f78da0e8f1 *R/base64.R
+f06540a77c4a684bdf75071cf28ced0f *R/mqReadMzXml.R
+bcd03715f73806d90fbf34fc6fe2ceb1 *R/mzXML.R
+2e8f881c2f6459333e15f4549fe23abc *R/readMzXmlData.R
+b3c3bf34e6e44529a7a45d49094f1a70 *inst/Examples/A1-0_A1.mzXML
+de6e5580e2c1fc2f42f79e34529a2c78 *inst/Examples/A1-0_A2.mzXML
+85aa33a7a2625152c0d0bd626783ebf3 *man/base64.Rd
+cccc2f25856e69c3f1336658cfc5f38f *man/mqReadMzXml.Rd
+1f59fa8f1eb5049754515376b8f74156 *man/mzXML.Rd
+96cb66c4177a67f9c63eb58851c5abf9 *man/readMzXmlData-internal.Rd
+61d093a90dba6bce672dfa5a483e6ef3 *man/readMzXmlData-package.Rd
+75a10a9668dbc38db8b3b1979a45f9e7 *man/readMzXmlDir.Rd
+405cc8b1136d4ed2faf3d3e852c73de8 *man/readMzXmlFile.Rd

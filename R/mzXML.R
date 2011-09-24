@@ -98,8 +98,9 @@
     #-------------------------------
     # local functions
     #-------------------------------
-    ToString = function(x, indent = 1)
+    ToString = function(x, indent = 1, walkDown=TRUE)
     { # converts content of a node to a string
+      ## walkDown added by Sebastian Gibb
       if (is.null(x)) return(NULL);
       spaces = if (indent>0) Paste(rep("  ", indent)) else ""
       Name = xmlName(x, TRUE)
@@ -111,7 +112,9 @@
         att = paste(" ", att, sep="")
       } else att = ""
       chl = ""
-      for (i in xmlChildren(x)) chl = Paste(chl, ToString(i, indent+1))
+      if (walkDown) {
+        for (i in xmlChildren(x)) chl = Paste(chl, ToString(i, indent+1))
+      }
       if (chl=="") Str = Paste(spaces, "<" , Name, att, "/>\n")
       else Str = Paste(spaces, "<" , Name, att, ">\n", chl, spaces, "</", Name, ">\n")
       return(Str)
@@ -153,13 +156,36 @@
       peaks       = xmlValue(y) # This is the actual data encoded using base64
       precision   = att["precision"] # nr of bits used by each component (32 or 64)
       byteOrder   = att["byteOrder"] # Byte order of the encoded binary information (must be network)
-      pairOrder   = att["pairOrder"] # Order of the m/z intensity pairs (must be m/z-int
+
       endian      = if(byteOrder=="network") "big" else "little"
       if(precision=="32") size=4
       else if(precision=="64") size=8
       else stop("read.mzXML.scan: incorrect precision attribute of peaks field")
-      if (pairOrder!="m/z-int")
-        warning("read.mzXML.scan: incorrect pairOrder attribute of peaks field")
+
+      ## added by Sebastian Gibb
+      ## find the root node
+      root <- xmlRoot(x);
+
+      ## detect mzXML version
+      xmlns <- xmlAttrs(root)["schemaLocation"];
+      versionStr <- gsub(x=xmlns,
+          pattern="http://sashimi.sourceforge.net/schema_revision/mzXML_",
+          replacement="", fixed=TRUE);
+      versionStr <- sub(x=versionStr,
+          pattern=" .*\\.xsd$",
+          replacement="", fixed=FALSE);
+      mzXmlVersion <- as.double(versionStr);
+
+      if (mzXmlVersion < 3.0) {
+        pairOrder <- att["pairOrder"]; # Order of the m/z intensity pairs (must be m/z-int)
+        if (pairOrder!="m/z-int")
+          warning("read.mzXML.scan: incorrect pairOrder attribute of peaks field")
+      } else {
+        contentType <- att["contentType"]; # Order of the m/z intensity pairs (must be m/z-int)
+        if (contentType!="m/z-int")
+          warning("read.mzXML.scan: incorrect contentType attribute of peaks field")
+      }
+
       if (peaksCount>0) {
         p = .base64decode(peaks, "double", endian=endian, size=size)
         np = length(p) %/% 2
@@ -169,7 +195,10 @@
         dim(p)=c(2, np)
         mass =p[1,]
         peaks=p[2,]
+      } else { ## added by Sebastian Gibb:
+        peaks <- NULL;
       }
+      
       #x$children=NULL; # needed to capture the header
       #header <<- toString(x)
       return( list(mass=mass, peaks=peaks, num=num, parentNum=num,
@@ -184,8 +213,8 @@
       mzXML  = function(x, ...) {
         y = x[["sha1"]]
         sha1[1]    <<- if (!is.null(y)) xmlValue(y) else 0
-        x$children =  NULL
-        obj$header <<- toString(x,terminate=FALSE)
+        #x$children =  NULL
+        obj$header <<- ToString(x, 2, walkDown=FALSE)
         NULL
       },
 
@@ -203,8 +232,9 @@
       scan  = function(x, ...) {
         iScan <<- iScan+1
         obj$scan[[iScan]] <<- read.mzXML.scan(x)
-        x$children=NULL
-        x
+        #x$children=NULL
+        #x
+        NULL
       },
 
       data = function() {
@@ -223,8 +253,9 @@
   if (length(filename)>1) filename = paste(filename, collapse = "")  # combine characters into a string
 
   sha1File = digest(filename, algo="sha1", file=TRUE)
+  ## modified by Sebastian Gibb
   x = xmlTreeParse(file=filename, handlers=mzXMLhandlers(),
-          addAttributeNamespaces=TRUE) $ data()
+          addAttributeNamespaces=TRUE, useInternalNodes=TRUE) $ data()
   if (is.null(x)) # is this file a mzXML file ?
     stop("read.mzXML: This is not mzXML file");
   mzXML    = x$mzXML

@@ -16,8 +16,8 @@ do it well. Also I want to try to keep it small and simple.
 \tabular{ll}{                                                                                                                                     
 Package: \tab readMzXmlData\cr                                                                                                                   
 Type: \tab Package\cr                                                                                                                             
-Version: \tab 1.3\cr
-Date: \tab 2011-05-28\cr
+Version: \tab 1.3.1\cr
+Date: \tab 2011-09-24\cr
 License: \tab GPL(version 3 or later)\cr                                                                                                          
 }    
 
@@ -37,7 +37,7 @@ Sebastian Gibb
 
 Maintainer: Sebastian Gibb \email{mail@sebastiangibb.de}}
 \references{
-See website: \url{http://www.strimmerlab.org/software/maldiquant/}
+See website: \url{http://strimmerlab.org/software/maldiquant/}
 }
 \keyword{IO}
 \seealso{
