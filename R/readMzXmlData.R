@@ -47,7 +47,7 @@ readMzXmlDir <- function(mzXmlDir, removeCalibrationScans=TRUE,
         return(NA);
     }
 
-    ## look for fid files (alphabetical sort)
+    ## look for mzXML files (alphabetical sort)
     files <- list.files(path=mzXmlDir, pattern=paste("*.", fileExtension, "$",
             sep=""), recursive=TRUE);
 
@@ -68,7 +68,7 @@ readMzXmlDir <- function(mzXmlDir, removeCalibrationScans=TRUE,
     files <- sapply(files, function(x) {
             x <- file.path(mzXmlDir, x);
             return(x);
-        });
+    });
 
     ## read mzXML files
     mzXmlData <- list();
@@ -84,8 +84,9 @@ readMzXmlDir <- function(mzXmlDir, removeCalibrationScans=TRUE,
 
     if (!removeMetaData & rewriteNames) {
         ## rewrite names
-        if (verbose)
+        if (verbose) {
             message("rewrite names ...");
+        }
 
         names(mzXmlData) <- paste("s", 1:length(mzXmlData), sep="");
     }
@@ -147,8 +148,9 @@ readMzXmlFile <- function(mzXmlFile, removeMetaData=FALSE, verbose=FALSE) {
     ## try to get absolute file path
     mzXmlFile <- normalizePath(mzXmlFile);
 
-    if (verbose)
+    if (verbose) {
         message("Reading spectrum from ", sQuote(mzXmlFile), " ...");
+    }
   
     if (!file.exists(mzXmlFile)) {
         warning("File ", sQuote(mzXmlFile), " doesn't exists!");
@@ -161,81 +163,19 @@ readMzXmlFile <- function(mzXmlFile, removeMetaData=FALSE, verbose=FALSE) {
     }
 
     ## read file
-    s <- .read.mzXML(mzXmlFile);
+    s <- .parseMzXml(file=mzXmlFile, verbose=verbose);
 
     spectra <- lapply(s$scan, function(x, globalS=s) {
             scan <- list()
-            scan$spectrum <- list();
-
-            if (!is.null(x$mass)) {
-              scan$spectrum$mass <- x$mass;
-            } else {
-              scan$spectrum$mass <- list();
-            }
-
-            if (!is.null(x$peaks)) {
-              scan$spectrum$intensity <- x$peaks;
-            } else {
-              scan$spectrum$intensity <- list();
-            }
+            scan$spectrum <- x$spectrum;
 
             if (!removeMetaData) {
-                scan$metaData <- .globalMetaData(globalS);
-                scan$metaData <- append(scan$metaData, .scanMetaData(x));
+                scan$metaData <- globalS$metaData;
+                scan$metaData <- append(scan$metaData, x$metaData);
                 scan$metaData$file <- mzXmlFile;
             }
             return(scan);
-        });
+    });
 
     return(spectra);
 }
-
-## function .globalMetaData
-##  convert metadata from read.mzXML format
-##  works on global metadata (the same for all scans of the same mzXML file)
-##
-## params:
-##  spec: spectrum list (direct output of read.mzXML) 
-##
-## returns:
-##  a list with metadata
-##
-.globalMetaData <- function(spec) {
-    keys <- c("header", "msInstrument", "parentFile", "dataProcessing", 
-        "separation", "spotting", "indexOffset");
-
-    metaData <- list();
-    for (i in keys) {
-        if (length(spec[[i]]) > 0) {
-            metaData[[i]] <- spec[[i]];
-        }
-    }
-
-    return(metaData);
-}
-
-## function .scanMetaData
-##  convert metadata from read.mzXML format
-##  works on scan specific metadata
-##
-## params:
-##  scan: scan list (direct output of read.mzXML(...)$scan[[1]])
-##
-## returns:
-##  a list with metadata
-##
-.scanMetaData <- function(scan) {
-    keys <- c("num", "parentNum", "msLevel", "maldi",
-        "experiment", "scanOrigin", "precursorMz");
-
-    metaData <- list();
-    for (i in keys) {
-        if (length(scan[[i]]) > 0) {
-            metaData[[i]] <- scan[[i]];
-        }
-    }
-
-    return(metaData);
-}
-
-## EOF

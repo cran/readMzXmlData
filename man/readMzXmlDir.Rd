@@ -58,7 +58,6 @@ Sebastian Gibb
 }
 \seealso{
     \code{\link{readMzXmlFile}},
-    \code{\link{.read.mzXML}}
 }
 \examples{
 ## load library

@@ -1,8 +1,5 @@
 \name{readMzXmlData-internal}
 
-\alias{.globalMetaData}
-\alias{.scanMetaData}
-
 \title{Internal readMzXmlData Functions}
 \description{
 Internal readMzXmlData functions.

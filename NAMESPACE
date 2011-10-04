@@ -1,3 +1,2 @@
 exportPattern("^[[:alpha:]]+")
-export(.read.mzXML)
 export(.base64decode)
