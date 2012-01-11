@@ -1,6 +1,6 @@
 ## $Id:readMzXmlData.R 381 2011-02-15 15:58:49Z sgibb $
 ##
-## Copyright 2011 Sebastian Gibb
+## Copyright 2011-2012 Sebastian Gibb
 ## <mail@sebastiangibb.de>
 ##
 ## This file is part of readMzXmlData for R and related languages.
@@ -206,7 +206,7 @@
         for (i in optAttrs) {
             a <- .attributeToString(attrs, i);
             if (!is.na(a)) {
-                operations[[i]] <<- a;
+                operations[[i]] <- a;
             }
         }
 
@@ -215,7 +215,7 @@
                 xml$metaData$dataProcessing$operations <<- list();
             }
             l <- length(xml$metaData$dataProcessing$operations);
-            xml$metaData$dataProcessing$operations[[l]] <<- operations;
+            xml$metaData$dataProcessing$operations[[l+1]] <<- operations;
         }
     }
 
