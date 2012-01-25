@@ -57,7 +57,7 @@ A list of spectra.
 Sebastian Gibb
 }
 \seealso{
-    \code{\link{readMzXmlFile}},
+    \code{\link{readMzXmlFile}}
 }
 \examples{
 ## load library

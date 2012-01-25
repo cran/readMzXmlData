@@ -46,7 +46,7 @@ A list of spectra and metadata.
 Sebastian Gibb
 }
 \seealso{
-  \code{\link{readMzXmlDir}},
+  \code{\link{readMzXmlDir}}
 }
 \examples{
 ## load library

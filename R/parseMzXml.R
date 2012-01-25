@@ -56,11 +56,8 @@
     nScans <- 0;
     currentScanId <- 0;
     currentPeaks <- "";
-
-    ## peaks settings
     precision <- 0;
     byteOrder <- "";
-    pairOrder <- "";
 
     ## sha1 tmp values
     sha1Sums <- character();
@@ -227,9 +224,11 @@
         optAttrsStr <- c("polarity", "scanType", "collisionGas", "filterLine");
         optAttrsDouble <- c("centroided", "chargeDeconvoluted", "deisotoped",
                             "ionisationEnergy", "collisionEnergy", 
-                            "collisionGasPressure", "startMz", "endMz", "lowMz",
+                            "collisionGasPressure", "cidGasPressure",
+                            "startMz", "endMz", "lowMz",
                             "highMz", "basePeakMz", "basePeakIntensity",
-                            "totIonCurrent");
+                            "totIonCurrent", "msInstrumentID",
+                            "compensationVoltage");
         optAttrsTime <- c("retentionTime");
 
         xml$scans[[currentScanId]] <<- list();
@@ -327,16 +326,49 @@
 
         precision <<- .attributeToDouble(attrs, "precision", required=TRUE);
         byteOrder <<- .attributeToString(attrs, "byteOrder", required=TRUE);
+
+        xml$scans[[currentScanId]]$metaData$precision <<- precision;
+        xml$scans[[currentScanId]]$metaData$byteOrder <<- byteOrder;
+
         ## handle different versions
         if (mzXmlVersion < 3) {
-            pairOrder <<- .attributeToString(attrs, "pairOrder", required=TRUE);
-        } else {
-            pairOrder <<- .attributeToString(attrs, "contentType", required=TRUE);
-        }
+            pairOrder <- .attributeToString(attrs, "pairOrder", required=TRUE);
 
-        if (pairOrder != "m/z-int") {
-             stop("Malformed mzXML: incorrect 'pairOrder'/'contentType' attribute ",
-                  "of 'peaks' field!");
+            if (pairOrder != "m/z-int") {
+                stop("Malformed mzXML: incorrect 'pairOrder' attribute ",
+                     "of 'peaks' field!");
+            }
+
+            xml$scans[[currentScanId]]$metaData$pairOrder <<- pairOrder;
+
+        } else {
+            contentType <- .attributeToString(attrs, "contentType", required=TRUE);
+            
+            validContentTypes <- c("m/z-int", "m/z", "m/z ruler", "TOF", 
+                                   "intensity", "S/N", "charge");
+
+            if (!contentType %in% validContentTypes) {
+                stop("Malformed mzXML: incorrect 'contentType' attribute ",
+                     "of 'peaks' field!");
+            }
+
+            ## compression
+            compressionType <- .attributeToString(attrs, "compressionType",
+                                                  required=TRUE);
+
+            validCompressionTypes <- c("none", "zlib");
+
+            if (!compressionType %in% validCompressionTypes) {
+                stop("Malformed mzXML: incorrect 'compressionType' attribute ",
+                     "of 'peaks' field!");
+            }
+
+            compressedLen <- .attributeToDouble(attrs, "compressedLen",
+                                                 required=TRUE);
+
+            xml$scans[[currentScanId]]$metaData$contentType <<- contentType;
+            xml$scans[[currentScanId]]$metaData$compressionType <<- compressionType;
+            xml$scans[[currentScanId]]$metaData$compressedLen <<- compressedLen;
         }
     }
 

@@ -11,7 +11,8 @@
 
 \description{
   Convert R vectors of any type from the Base64 format for encrypting
-  any binary data as string using alphanumeric subset of ASCII character set.
+  any binary data as string using alphanumeric subset of ASCII character set.\cr
+  This is an internal function and should normally not used by the user.
 }
 
 \details{

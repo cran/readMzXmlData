@@ -1,6 +1,12 @@
 RELEASE HISTORY OF THE "readMzXmlData" PACKAGE
 ===================================================
 
+Version 2.1 [2012-01-25]:
+- Change NAMESPACE file
+- Hide .base64decode by NAMESPACE
+- Add compressionType and compressedLen attributes
+  (but don't handle them due lack of test files)
+
 Version 2.0.1 [2012-01-11]:
 - Fix dataProcessing parsing
 

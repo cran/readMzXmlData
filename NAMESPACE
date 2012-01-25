@@ -1,2 +1,7 @@
-exportPattern("^[[:alpha:]]+")
-export(.base64decode)
+importFrom("bitops", "bitAnd", "bitOr")
+importFrom("digest", "digest")
+importFrom("XML", "xmlEventParse")
+
+export("mqReadMzXml",
+       "readMzXmlDir",
+       "readMzXmlFile")
