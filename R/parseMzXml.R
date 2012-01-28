@@ -364,7 +364,7 @@
             }
 
             compressedLen <- .attributeToDouble(attrs, "compressedLen",
-                                                 required=TRUE);
+                                                required=TRUE);
 
             xml$scans[[currentScanId]]$metaData$contentType <<- contentType;
             xml$scans[[currentScanId]]$metaData$compressionType <<- compressionType;
