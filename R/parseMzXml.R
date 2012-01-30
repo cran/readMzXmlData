@@ -58,6 +58,7 @@
     currentPeaks <- "";
     precision <- 0;
     byteOrder <- "";
+    compressionType <- "none";
 
     ## sha1 tmp values
     sha1Sums <- character();
@@ -352,8 +353,10 @@
                      "of 'peaks' field!");
             }
 
+            xml$scans[[currentScanId]]$metaData$contentType <<- contentType;
+
             ## compression
-            compressionType <- .attributeToString(attrs, "compressionType",
+            compressionType <<- .attributeToString(attrs, "compressionType",
                                                   required=TRUE);
 
             validCompressionTypes <- c("none", "zlib");
@@ -366,9 +369,11 @@
             compressedLen <- .attributeToDouble(attrs, "compressedLen",
                                                 required=TRUE);
 
-            xml$scans[[currentScanId]]$metaData$contentType <<- contentType;
             xml$scans[[currentScanId]]$metaData$compressionType <<- compressionType;
             xml$scans[[currentScanId]]$metaData$compressedLen <<- compressedLen;
+
+            compressionType <<- ifelse(compressionType == "zlib", "gzip",
+                                       "none");
         }
     }
 
@@ -431,7 +436,8 @@
 
         if (peaksCount>0) {
             ## taken from: caMassClass 1.9 R/mzXML.R (written by Jarek Tuszynski)
-            p <- .base64decode(currentPeaks, "double", endian=endian, size=size);
+            p <- .base64decode(z=currentPeaks, what="double", endian=endian,
+                               size=size, compressionType=compressionType);
             np <- length(p) %/% 2;
 
             if (np != peaksCount) {

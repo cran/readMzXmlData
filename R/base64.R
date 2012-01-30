@@ -22,6 +22,7 @@
 ## modification by Sebastian Gibb <mail@sebastiangibb.de>:
 ## - remove base64encode function
 ## - prepend a dot to function name
+## - add compression support
 
 #===========================================================================#
 # caTools - R library                                                       #
@@ -39,7 +40,8 @@
 # enabling 6 bits to be represented per printable character
 #===============================================================================
 
-.base64decode = function(z, what, size=NA, signed = TRUE, endian=.Platform$endian)
+.base64decode = function(z, what, size=NA, signed=TRUE, endian=.Platform$endian,
+                         compressionType=c("none", "gzip"))
 {  
   library(bitops)                 # needed for bitOr and bitAnd
   if (!is.character(z)) 
@@ -91,6 +93,11 @@
   
   # perform final conversion from 'raw' to type given by 'what'
   r = as.raw(x)
+
+  ## add compression support
+  compressionType <- match.arg(compressionType, several.ok=FALSE);
+  r <- memDecompress(from=r, type=compressionType);
+
   TypeList = c("logical", "integer", "double", "complex", "character", "raw", 
                "numeric", "int")
   if (!is.character(what) || length(what) != 1 || !(what %in% TypeList)) 

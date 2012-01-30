@@ -20,7 +20,8 @@ This function was taken from \pkg{caTools} 1.11 \emph{R/base64.R}.
 }
 
 \usage{
-  .base64decode(z, what, size=NA, signed =TRUE, endian=.Platform$endian)
+  .base64decode(z, what, size=NA, signed =TRUE, endian=.Platform$endian,
+                compressionType=c("none", "gzip"))
 }
 
 \arguments{
@@ -43,11 +44,12 @@ This function was taken from \pkg{caTools} 1.11 \emph{R/base64.R}.
      aka "network") or '"little"' (little-endian, format used on PC/Intel 
      machines) to indicate type of data encoded in "raw" format.
      Same as variable \code{endian} in \code{\link{readBin}} functions.}
+   \item{compressionType}{Type of compression to use for decompression of
+     \code{z}. Same as variable \code{type} in \code{\link{memDecompress}}.}
 }
 
 \value{
-   Function \code{\link{.base64decode}} returns vector of appropriate mode 
-    and length (see \code{x} above).
+   Function \code{\link{.base64decode}} returns a vector of type \code{what}.
 }
 
 \references{

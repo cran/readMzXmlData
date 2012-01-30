@@ -1,6 +1,9 @@
 RELEASE HISTORY OF THE "readMzXmlData" PACKAGE
 ==============================================
 
+Version 2.2 [2012-01-30]:
+- Add compression support (compressionType="zlib")
+
 Version 2.1.1 [2012-01-28]:
 - Remove import directives in NAMESPACE 
   (Otherwise installation fails on R<2.14 because bitops has no NAMESPACE file.)

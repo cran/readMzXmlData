@@ -1,7 +1,7 @@
 Package: readMzXmlData
-Version: 2.1.1
-Date: 2012-01-28
-Title: Reads mass spectrometry data in mzXML format.
+Version: 2.2
+Date: 2012-01-30
+Title: Reads mass spectrometry data in mzXML format
 Author: Sebastian Gibb, Jarek Tuszynski
 Maintainer: Sebastian Gibb <mail@sebastiangibb.de>
 Depends: R (>= 2.9.0), bitops, digest, XML
@@ -11,6 +11,6 @@ Description: Functions for reading mass spectrometry data in mzXML
 License: GPL (>= 3)
 URL: http://strimmerlab.org/software/maldiquant/
 LazyLoad: yes
-Packaged: 2012-01-28 09:05:59 UTC; sgibb
+Packaged: 2012-01-30 21:11:14 UTC; sgibb
 Repository: CRAN
-Date/Publication: 2012-01-28 17:10:22
+Date/Publication: 2012-01-31 07:30:18
