@@ -1,6 +1,10 @@
 RELEASE HISTORY OF THE "readMzXmlData" PACKAGE
 ==============================================
 
+Version 2.2.1 [2012-03-09]:
+- Keep filename if removeMetaData==TRUE
+- Replace some warning()'s by stop()'s
+
 Version 2.2 [2012-01-30]:
 - Add compression support (compressionType="zlib")
 

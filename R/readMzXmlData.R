@@ -1,5 +1,3 @@
-## $Id:readMzXmlData.R 381 2011-02-15 15:58:49Z sgibb $
-##
 ## Copyright 2011 Sebastian Gibb
 ## <mail@sebastiangibb.de>
 ##
@@ -38,13 +36,13 @@
 readMzXmlDir <- function(mzXmlDir, removeCalibrationScans=TRUE,
     removeMetaData=FALSE, rewriteNames=TRUE, fileExtension="mzXML",
     verbose=FALSE) {
-    if (verbose)
+    if (verbose) {
         message("Look for spectra in ", sQuote(mzXmlDir), " ...");
+    }
 
     if ((!file.exists(mzXmlDir)) || (!file.info(mzXmlDir)$isdir)) {
-        warning("Directory ", sQuote(mzXmlDir), " doesn't exists or is no
-                directory!");
-        return(NA);
+        stop("Directory ", sQuote(mzXmlDir), " doesn't exists or is no ",
+             "directory!");
     }
 
     ## look for mzXML files (alphabetical sort)
@@ -60,8 +58,7 @@ readMzXmlDir <- function(mzXmlDir, removeCalibrationScans=TRUE,
     }
 
     if (length(files) <= 0) {
-        warning("Directory doesn't contain any ", fileExtension, " file.");
-        return(NA);
+        stop("Directory doesn't contain any ", fileExtension, " file.");
     }
 
     ## generate "path/files"
@@ -78,7 +75,7 @@ readMzXmlDir <- function(mzXmlDir, removeCalibrationScans=TRUE,
         for (j in seq(along=mzXmlFile)) {
             spectra <- list();
             spectra$spectra <- mzXmlFile[[j]];
-            mzXmlData <- append(mzXmlData, spectra); 
+            mzXmlData <- c(mzXmlData, spectra); 
         }
     }
 
@@ -145,22 +142,20 @@ readMzXmlFile <- function(mzXmlFile, removeMetaData=FALSE, verbose=FALSE) {
 ##    [[1]]$metaData
 ##
 .readMzXmlFile <- function(mzXmlFile, removeMetaData=FALSE, verbose=FALSE) {
-    ## try to get absolute file path
-    mzXmlFile <- normalizePath(mzXmlFile);
-
     if (verbose) {
         message("Reading spectrum from ", sQuote(mzXmlFile), " ...");
     }
   
     if (!file.exists(mzXmlFile)) {
-        warning("File ", sQuote(mzXmlFile), " doesn't exists!");
-        return(NA);
+        stop("File ", sQuote(mzXmlFile), " doesn't exists!");
     }
 
     if (file.info(mzXmlFile)$isdir) {
-        warning("Not a mzXML file! ", sQuote(mzXmlFile), " is a directory.");
-        return(NA);
+        stop("Not a mzXML file! ", sQuote(mzXmlFile), " is a directory.");
     }
+
+    ## try to get absolute file path
+    mzXmlFile <- normalizePath(mzXmlFile);
 
     ## read file
     s <- .parseMzXml(file=mzXmlFile, verbose=verbose);
@@ -168,11 +163,10 @@ readMzXmlFile <- function(mzXmlFile, removeMetaData=FALSE, verbose=FALSE) {
     spectra <- lapply(s$scan, function(x, globalS=s) {
             scan <- list()
             scan$spectrum <- x$spectrum;
+            scan$metaData$file <- mzXmlFile;
 
             if (!removeMetaData) {
-                scan$metaData <- globalS$metaData;
-                scan$metaData <- append(scan$metaData, x$metaData);
-                scan$metaData$file <- mzXmlFile;
+                scan$metaData <- c(scan$metaData, globalS$metaData, x$metaData);
             }
             return(scan);
     });

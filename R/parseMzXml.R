@@ -1,5 +1,3 @@
-## $Id:readMzXmlData.R 381 2011-02-15 15:58:49Z sgibb $
-##
 ## Copyright 2011-2012 Sebastian Gibb
 ## <mail@sebastiangibb.de>
 ##
