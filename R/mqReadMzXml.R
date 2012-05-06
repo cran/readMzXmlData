@@ -53,10 +53,6 @@ mqReadMzXml <- function(path, ...) {
                 return(createMassSpectrum(mass=x$spectrum$mass,
                                           intensity=x$spectrum$intensity,
                                           metaData=x$metaData)); });
-    if (length(s) == 1) {
-        return(s[[1]]);
-    } else {
-        return(s);
-    }
+    return(s);
 }
 

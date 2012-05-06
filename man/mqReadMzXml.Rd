@@ -27,10 +27,7 @@ See \code{\link[readMzXmlData]{readMzXmlDir}} or
 \code{\link[readMzXmlData]{readMzXmlFile}}.
 }
 \value{
-    Returns a \code{\link[MALDIquant]{MassSpectrum-class}} object
-    if \emph{path} is/contains only one mzXML file. \cr
-    Returns a list of \code{\link[MALDIquant]{MassSpectrum-class}} objects
-    if \emph{path} contains multiple mzXML files.
+    Returns a list of \code{\link[MALDIquant]{MassSpectrum-class}} objects.
 }
 \references{                                                                                                                                                                                 
 See website: \url{http://strimmerlab.org/software/maldiquant/}                                                                                                                               
@@ -56,7 +53,7 @@ spec <- mqReadMzXml(exampleDirectory);
 
 ## plot spectra
 par(mfrow=c(2, 1));
-lapply(spec, function(x)plot(x));
+lapply(spec, plot);
 par(mfrow=c(1, 1));
 }
 \keyword{IO}
