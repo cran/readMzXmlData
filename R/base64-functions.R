@@ -1,4 +1,4 @@
-## Copyright 2011 Sebastian Gibb
+## Copyright 2011-2012 Sebastian Gibb
 ## <mail@sebastiangibb.de>
 ##
 ## This file is part of readMzXmlData for R and related languages.
@@ -18,6 +18,7 @@
 
 ## completely taken from caTools 1.11 R/base64.R
 ## modification by Sebastian Gibb <mail@sebastiangibb.de>:
+## - roxygenize documentation
 ## - remove base64encode function
 ## - prepend a dot to function name
 ## - add compression support
@@ -38,6 +39,57 @@
 # enabling 6 bits to be represented per printable character
 #===============================================================================
 
+#' Convert R vectors from the Base64 format.
+#' 
+#' Convert R vectors of any type from the Base64 format for encrypting any
+#' binary data as string using alphanumeric subset of ASCII character set.\cr
+#' This is an internal function and should normally not used by the user.
+#' 
+#' This function was taken from \pkg{caTools} 1.11 \emph{R/base64.R}.
+#' 
+#' @param z String with Base64 code, using [A-Z,a-z,0-9,+,/,=] subset of
+#'  characters
+#' @param what Either an object whose mode will give the mode of the vector to
+#'  be created, or a character vector of length one describing the mode: one of
+#'  \code{numeric}, \code{double}, \code{integer}, \code{int}, \code{logical},
+#'  \code{complex}, \code{character}, \code{raw}. Same as variable \code{what} 
+#'  in \code{\link[base]{readBin}} functions.
+#' @param size integer. The number of bytes per element in the byte stream
+#'  stored in \code{r}. The default, \sQuote{\code{NA}}, uses the natural size.
+#'  Same as variable \code{size} in \code{\link[base]{readBin}} functions.
+#' @param signed logical. Only used for integers of sizes 1 and 2, when it
+#'  determines if the quantity stored as raw should be regarded as a signed or
+#'  unsigned integer. Same as variable \code{signed} in 
+#'  \code{\link[base]{readBin}} functions.
+#' @param endian If provided, can be used to swap endian-ness. Using
+#'  \dQuote{swap} will force swapping of byte order. Use \dQuote{big} 
+#'  (big-endian, aka IEEE, aka \dQuote{network}) or \dQuote{little}
+#'  (little-endian, format used on PC/Intel machines) to
+#'  indicate type of data encoded in \code{raw} format. Same as variable
+#'  \code{endian} in \code{\link[base]{readBin}} functions.
+#' @param compressionType character. Type of compression to use for 
+#'  decompression of \code{z}. Same as variable \code{type} in 
+#'  \code{\link{memDecompress}}.
+#' @return Function \code{\link{.base64decode}} returns a vector of type
+#'  \code{what}.
+#' @rdname base64-decode
+#' @author Jarek Tuszynski (SAIC) \email{jaroslaw.w.tuszynski@@saic.com}
+#' @seealso \code{\link[caTools]{base64decode}} from \pkg{caTools} package for
+#'  original documentation and examples.
+#' 
+#' \code{\link[base]{readBin}}, \code{\link[base]{writeBin}}
+#' @references 
+#'  \itemize{
+#'    \item Base64 description in \emph{Connected: An
+#'          Internet Encyclopedia}
+#'          \url{http://www.freesoft.org/CIE/RFC/1521/7.htm}
+#'    \item MIME RFC 1341 \url{http://www.faqs.org/rfcs/rfc1341.html}
+#'    \item MIME RFC 1421 \url{http://www.faqs.org/rfcs/rfc1421.html}
+#'    \item MIME RFC 2045 \url{http://www.faqs.org/rfcs/rfc2045.html}
+#'    \item Portions of the code are based on Matlab code by Peter Acklam
+#'          \url{http://home.online.no/~pjacklam/matlab/software/util/datautil/}
+#'  }
+#'
 .base64decode = function(z, what, size=NA, signed=TRUE, endian=.Platform$endian,
                          compressionType=c("none", "gzip"))
 {  
@@ -80,10 +132,10 @@
   # This section is based on Matlab code by Peter Acklam
   # http://home.online.no/~pjacklam/matlab/software/util/datautil/
   #---------------------------------------------
-  x[1,] = bitOr(bitShiftL(y[1,], 2), bitShiftR(y[2,], 4))
-  x[2,] = bitOr(bitShiftL(y[2,], 4), bitShiftR(y[3,], 2))
-  x[3,] = bitOr(bitShiftL(y[3,], 6), y[4,])
-  x = bitAnd(x, 255) # trim numbers to lower 8-bits
+  x[1,] = bitops::bitOr(bitops::bitShiftL(y[1,], 2), bitops::bitShiftR(y[2,], 4))
+  x[2,] = bitops::bitOr(bitops::bitShiftL(y[2,], 4), bitops::bitShiftR(y[3,], 2))
+  x[3,] = bitops::bitOr(bitops::bitShiftL(y[3,], 6), y[4,])
+  x = bitops::bitAnd(x, 255) # trim numbers to lower 8-bits
   
   # remove padding
   if (neByte %% 4 == 2) x = x[1:(ndByte-2)]
@@ -93,8 +145,8 @@
   r = as.raw(x)
 
   ## add compression support
-  compressionType <- match.arg(compressionType, several.ok=FALSE);
-  r <- memDecompress(from=r, type=compressionType);
+  compressionType <- match.arg(compressionType, several.ok=FALSE)
+  r <- memDecompress(from=r, type=compressionType)
 
   TypeList = c("logical", "integer", "double", "complex", "character", "raw", 
                "numeric", "int")

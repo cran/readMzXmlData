@@ -1,4 +1,4 @@
-## Copyright 2011 Sebastian Gibb
+## Copyright 2011-2012 Sebastian Gibb
 ## <mail@sebastiangibb.de>
 ##
 ## This file is part of readMzXmlData for R and related languages.
@@ -16,56 +16,78 @@
 ## You should have received a copy of the GNU General Public License
 ## along with readMzXmlData. If not, see <http://www.gnu.org/licenses/>
 
-## function .attributeToString
-##  convert an XML attribute to string 
-##
-## params:
-##  attributes: vector of attributes
-##  attributeName: name of attribute to convert
-##  required: logical, throw an error if an required attribute is missing
-##
-## returns:
-##  attribute string 
-##
+#' Converts XML attributes.
+#'
+#' This function converts a XML attribute to \code{character}. 
+#'
+#' @param attributes \code{character}, XML attributes
+#' @param attributeName \code{character}, name XML attributes of attribute to
+#'  convert
+#' @param required \code{logical}, throw an error if an required attribute is
+#'  missing.
+#'
+#' @return \code{character}, attribute string 
+#'
+#' @author Sebastian Gibb \email{mail@@sebastiangibb.de}
+#' @seealso \code{\link[readMzXmlData]{.attributeToDouble}},
+#'  \code{\link[readMzXmlData]{.attributeTimeToDouble}}
+#' @rdname attributeToString
+#' @keywords internal
+#'
 .attributeToString <- function(attributes, attributeName, required=FALSE) {
-    a <- unname(attributes[attributeName]);
-    if (required && is.na(a)) {
-        stop("Malformed mzXML: attribute ", sQuote(attributeName), " is missing!")
-    } else {
-        return(a);
-    }
+  a <- unname(attributes[attributeName])
+  if (required && (is.null(a) || is.na(a))) {
+    stop("Malformed mzXML: attribute ", sQuote(attributeName), " is missing!")
+  } else {
+    return(a)
+  }
 }
 
-## function .attributeToDouble
-##  convert an XML attribute to double
-##
-## params:
-##  attributes: vector of attributes
-##  attributeName: name of attribute to convert
-##  required: logical, throw an error if an required attribute is missing
-##
-## returns:
-##  attribute as double
-##
+#' Converts XML attributes.
+#'
+#' This function converts a XML attribute to \code{double}. 
+#'
+#' @param attributes \code{character}, XML attributes
+#' @param attributeName \code{character}, name XML attributes of attribute to
+#'  convert
+#' @param required \code{logical}, throw an error if an required attribute is
+#'  missing.
+#'
+#' @return \code{double}
+#'
+#' @author Sebastian Gibb \email{mail@@sebastiangibb.de}
+#' @seealso \code{\link[readMzXmlData]{.attributeToString}},
+#'  \code{\link[readMzXmlData]{.attributeTimeToDouble}}
+#' @rdname attributeToDouble
+#' @keywords internal
+#'
 .attributeToDouble <- function(attributes, attributeName, required=FALSE) {
-    return(as.double(.attributeToString(attributes=attributes,
-                                        attributeName=attributeName,
-                                        required=required)));
+  return(as.double(.attributeToString(attributes=attributes,
+                                      attributeName=attributeName,
+                                      required=required)))
 }
 
-## function .attributeTimeToDouble
-##  convert an XML time attribute to double
-##
-## params:
-##  attributes: vector of attributes
-##  attributeName: name of attribute to convert
-##  required: logical, throw an error if an required attribute is missing
-##
-## returns:
-##  attribute as double
-##
+#' Converts XML attributes.
+#'
+#' This function converts a XML time attribute to \code{double}. 
+#'
+#' @param attributes \code{character}, XML attributes
+#' @param attributeName \code{character}, name XML attributes of attribute to
+#'  convert
+#' @param required \code{logical}, throw an error if an required attribute is
+#'  missing.
+#'
+#' @return \code{double}
+#'
+#' @author Sebastian Gibb \email{mail@@sebastiangibb.de}
+#' @seealso \code{\link[readMzXmlData]{.attributeToString}},
+#'  \code{\link[readMzXmlData]{.attributeToDouble}}
+#' @rdname attributeTimeToDouble
+#' @keywords internal
+#'
 .attributeTimeToDouble <- function(attributes, attributeName, required=FALSE) {
-    return(as.double(.grepDouble(.attributeToString(attributes=attributes,
-                                    attributeName=attributeName,
-                                    required=required))));
+  return(as.double(.grepDouble(.attributeToString(attributes=attributes,
+                                                  attributeName=attributeName,
+                                                  required=required))))
 }
+

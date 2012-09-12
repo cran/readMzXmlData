@@ -1,4 +1,4 @@
-## Copyright 2011 Sebastian Gibb
+## Copyright 2011-2012 Sebastian Gibb
 ## <mail@sebastiangibb.de>
 ##
 ## This file is part of readMzXmlData for R and related languages.
@@ -26,6 +26,22 @@
 # Distributed under GNU General Public License version 3                    #
 #===========================================================================#
 
+#' Pattern matching.
+#'
+#' This function looks for matches to argument \code{pattern} in a file
+#' \code{filename}.
+#'
+#' @param pattern \code{character}, string containing a regular expression 
+#' @param filename \code{character}, name of file
+#'
+#' @return \code{double}, position of match
+#'
+#' @author Jarek Tuszynski (SAIC) \email{jaroslaw.w.tuszynski@@saic.com}
+#' @seealso \code{\link[base]{regexpr}}
+#
+#' @rdname fregexpr 
+#' @keywords internal
+#'
 .fregexpr = function(pattern, filename) {
     ## similar to gregexpr but operating on files not strings
     buf.size <- 1024;
