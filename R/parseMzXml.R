@@ -458,15 +458,14 @@
     peaksCount <- xml$scans[[currentScanId]]$metaData$peaksCount
 
     if (peaksCount>0) {
-      ## taken from: caMassClass 1.9 R/mzXML.R (written by Jarek Tuszynski)
-      p <- .base64decode(z=currentPeaks, what="double", endian=endian,
-                 size=size, compressionType=compressionType)
+      p <- .base64decode(x=currentPeaks, endian=endian, size=size,
+                         compressionType=compressionType)
       np <- length(p) %/% 2
 
       if (np != peaksCount) {
         stop("Malformed mzXML: incorrect 'peakCount' attribute of ",
              "'peaks' field: expected ", peaksCount, ", found ", 
-             np, "  ",(3*((nchar(peaks)*size)/4))/2, " (scan #",
+             np, "  ",(3*((nchar(currentPeaks)*size)/4))/2, " (scan #",
              currentScanId, ")")
       }
       
@@ -482,7 +481,6 @@
   }
 
   calculateSha1Sums <- function() {
-    ## taken from: caMassClass 1.9 R/mzXML.R (written by Jarek Tuszynski)
     n <- length(sha1Sums)
     if (n <= 0) {
       return()
@@ -493,7 +491,7 @@
     if (verbose) {
       message("Look for '<sha1>' positions ...")
     }
-    sha1Pos <- .fregexpr("<sha1>", fileName) + 6 # 6 == length("<sha1>")
+    sha1Pos <- .revfregexpr("<sha1>", fileName) + 6 # 6 == length("<sha1>")
     ## multiple sha1 sections are possible
     for (i in n) {
       if (verbose) {
