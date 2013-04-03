@@ -1,6 +1,12 @@
 RELEASE HISTORY OF THE "readMzXmlData" PACKAGE
 ==============================================
 
+Version 2.6 [2013-04-03]:
+- Remove LICENSE file.
+- DESCRIPTION: move base64enc, digest and XML to "Imports".
+- mqReadMzXml is marked as deprecated. Use MALDIquantForeign::importMzXml
+  instead.
+
 Version 2.5 [2012-12-09]:
 - Replace .base64decode by base64enc::base64decode.
 - Replace .fregexpr by .revfregexpr (start search for sha1 sum from the end of
@@ -38,7 +44,7 @@ Version 2.0.1 [2012-01-11]:
 - Fix dataProcessing parsing.
 
 Version 2.0 [2011-10-04]:
-- Complete rewrite of mzXML parser (using xmlEventParse; no wrapper of 
+- Complete rewrite of mzXML parser (using xmlEventParse; no wrapper of
   caMassClass' read.mzXML anymore).
 
 Version 1.3.1 [2011-09-24]:
