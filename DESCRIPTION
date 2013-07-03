@@ -1,10 +1,10 @@
 Package: readMzXmlData
-Version: 2.6
-Date: 2013-04-03
+Version: 2.7
+Date: 2013-07-03
 Title: Reads mass spectrometry data in mzXML format
 Authors@R: person("Sebastian", "Gibb", role=c("aut", "cre"),
         email="mail@sebastiangibb.de")
-Depends: R (>= 2.14.0)
+Depends: R (>= 2.15.0)
 Imports: base64enc, digest, XML
 Suggests: MALDIquant (>= 1.0)
 Description: Functions for reading mass spectrometry data in mzXML
@@ -18,9 +18,9 @@ Collate: 'attribute-functions.R' 'base64-functions.R'
         'grep-functions.R' 'mqReadMzXml-functions.R' 'package.R'
         'parseMzXml.R' 'readMzXmlDir-functions.R'
         'readMzXmlFile-functions.R' 'revfregexpr-functions.R'
-Packaged: 2013-04-03 16:33:03 UTC; sebastian
+Packaged: 2013-07-03 15:16:38 UTC; sebastian
 Author: Sebastian Gibb [aut, cre]
 Maintainer: Sebastian Gibb <mail@sebastiangibb.de>
 NeedsCompilation: no
 Repository: CRAN
-Date/Publication: 2013-04-03 22:54:21
+Date/Publication: 2013-07-03 17:44:42

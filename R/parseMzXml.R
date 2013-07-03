@@ -433,9 +433,9 @@
     if (openTag == "precursorMz") {
       xml$scans[[currentScanId]]$metaData$precursorMz <<- as.double(x)
     } else if (openTag == "peaks") {
-      currentPeaks <<- paste(currentPeaks, x, sep="")
+      currentPeaks <<- paste0(currentPeaks, x)
     } else if (openTag == "sha1") {
-      sha1Sums[currentSha1Id] <<- paste(sha1Sums[currentSha1Id], x, sep="")
+      sha1Sums[currentSha1Id] <<- paste0(sha1Sums[currentSha1Id], x)
     }
   }
 
@@ -465,7 +465,7 @@
       if (np != peaksCount) {
         stop("Malformed mzXML: incorrect 'peakCount' attribute of ",
              "'peaks' field: expected ", peaksCount, ", found ",
-             np, "  ",(3*((nchar(currentPeaks)*size)/4))/2, " (scan #",
+             np, "  ", (3*((nchar(currentPeaks)*size)/4))/2, " (scan #",
              currentScanId, ")")
       }
 
@@ -473,8 +473,8 @@
       mass <- p[1,]
       intensity <- p[2,]
     } else {
-      mass <- list()
-      intensity <- list()
+      mass <- double()
+      intensity <- double()
     }
 
     xml$scans[[currentScanId]]$spectrum <<- list(mass=mass, intensity=intensity)
